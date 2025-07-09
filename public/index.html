@@ -10,7 +10,7 @@
     <div class="container">
         <h1>Film Ratings Manager</h1>
         
-        <form id="filmForm" onsubmit="return API.createFilm()">
+        <form id="filmForm" onsubmit="API.createFilm(event)">
             <input 
                 type="text" 
                 id="filmTitle" 
@@ -33,7 +33,7 @@
         </form>
         <div id="successMessage" class="hidden"></div>
         
-        <form id="getFilmsForm" onsubmit="return API.getFilms()">
+        <form id="getFilmsForm" onsubmit="API.getFilms(event)">
             <button type="submit">Get Films</button>
         </form>
         

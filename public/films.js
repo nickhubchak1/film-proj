@@ -9,7 +9,8 @@ const API = (function() {
         msg.classList.add('hidden');
     }
 
-    async function createFilm() {
+    async function createFilm(event) {
+        if (event) event.preventDefault();
         const input = document.getElementById('filmTitle');
         const ratingInput = document.getElementById('filmRating');
         const title = input.value.trim();
@@ -49,7 +50,8 @@ const API = (function() {
         return false;
     }
 
-    async function getFilms() {
+    async function getFilms(event) {
+        if (event) event.preventDefault();
         const table = document.getElementById('filmsTable');
         const tbody = table.querySelector('tbody');
         tbody.innerHTML = '';
