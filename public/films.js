@@ -42,7 +42,10 @@ const API = (function() {
         ratingInput.value = '10';
         showSuccess('Film added successfully!');
 
-        document.getElementById('filmsTable').classList.add('hidden');
+        const table = document.getElementById('filmsTable');
+        if (!table.classList.contains('hidden')) {
+            await getFilms();
+        }
         return false;
     }
 

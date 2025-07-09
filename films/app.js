@@ -19,8 +19,15 @@ app.get('/api/v1/films', (req, res) => {
 app.post('/api/v1/films', (req, res) => {
   const name = req.body.name;
   const rating = req.body.rating;
-  const film = { name, rating };
-  films.push(film);
+
+  let film = films.find(f => f.name === name);
+  if (film) {
+    film.rating = rating;
+  } else {
+    film = { name, rating };
+    films.push(film);
+  }
+
   res.json(film);
 });
 
