@@ -1,7 +1,7 @@
 // public/films.js
 
 const API = (function() {
-    let films = [];
+
 
     function clearSuccessMessage() {
         const msg = document.getElementById('successMessage');
@@ -9,7 +9,7 @@ const API = (function() {
         msg.classList.add('hidden');
     }
 
-    function createFilm() {
+    async function createFilm() {
         const input = document.getElementById('filmTitle');
         const ratingInput = document.getElementById('filmRating');
         const title = input.value.trim();
@@ -26,39 +26,55 @@ const API = (function() {
             return false;
         }
 
-        films.push({ title: title, rating: rating });
+        try {
+            const resp = await fetch('http://localhost:3001/api/v1/films', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: title })
+            });
+            await resp.json();
+        } catch (e) {
+            console.error(e);
+        }
         input.value = '';
         ratingInput.value = '10';
         showSuccess('Film added successfully!');
 
-        if (films.length === 0) {
-            document.getElementById('filmsTable').classList.add('hidden');
-        }
+        document.getElementById('filmsTable').classList.add('hidden');
         return false;
     }
 
-    function getFilms() {
+    async function getFilms() {
         const table = document.getElementById('filmsTable');
         const tbody = table.querySelector('tbody');
         tbody.innerHTML = '';
         clearSuccessMessage();
 
-        if (films.length === 0) {
-            table.classList.add('hidden');
-            return false;
+        try {
+            const resp = await fetch('http://localhost:3001/api/v1/films');
+            const data = await resp.json();
+
+            data.forEach((film, idx) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${idx + 1}</td>
+                    <td>${film.name}</td>
+                    <td><span class="badge">10/10</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            if (data.length === 0) {
+                table.classList.add('hidden');
+                return false;
+            }
+
+            table.classList.remove('hidden');
+        } catch (e) {
+            console.error(e);
         }
-
-        films.forEach((film, idx) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${idx + 1}</td>
-                <td>${film.title}</td>
-                <td><span class="badge">${film.rating}/10</span></td>
-            `;
-            tbody.appendChild(row);
-        });
-
-        table.classList.remove('hidden');
         return false;
     }
 
