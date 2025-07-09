@@ -18,7 +18,8 @@ app.get('/api/v1/films', (req, res) => {
 
 app.post('/api/v1/films', (req, res) => {
   const name = req.body.name;
-  const film = { name: name };
+  const rating = req.body.rating;
+  const film = { name, rating };
   films.push(film);
   res.json(film);
 });

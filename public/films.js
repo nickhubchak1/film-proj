@@ -32,7 +32,7 @@ const API = (function() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ name: title })
+                body: JSON.stringify({ name: title, rating })
             });
             await resp.json();
         } catch (e) {
@@ -61,7 +61,7 @@ const API = (function() {
                 row.innerHTML = `
                     <td>${idx + 1}</td>
                     <td>${film.name}</td>
-                    <td><span class="badge">10/10</span></td>
+                    <td><span class="badge">${film.rating}/10</span></td>
                 `;
                 tbody.appendChild(row);
             });
